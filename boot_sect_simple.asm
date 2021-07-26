@@ -1,12 +1,13 @@
-
-
 ; Infinite loop (e9 fd ff)
+memory_load_address equ 0x7c00
+
 loop:
-    mov ebx, hello_world_msg
+    mov ebx, hello_world_msg + memory_load_address
     call print_msg
+    jmp loop
 
 hello_world_msg:
-    db 'Hello world!', 0
+    db 'Hello world!', 0xa, 0xd, 0x0
 
 print_msg:
     mov ah, 0x0e
@@ -19,6 +20,7 @@ print_msg_loop:
     int 0x10
 
     inc ecx
+    jmp print_msg_loop
 
 print_msg_end:
     ret
